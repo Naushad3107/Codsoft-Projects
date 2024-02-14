@@ -1,0 +1,68 @@
+@startuml class_crs
+
+allow_mixing
+
+package registrationSystem.model #DDDDDD
+{
+    class AppModel
+    class CourseCatalogModel
+    class CourseModel
+    class OfferingModel
+    class RegistrationModel
+    class StudentModel
+
+    AppModel o-- CourseCatalogModel
+    AppModel *-- StudentModel
+    CourseCatalogModel o-- CourseModel
+    CourseCatalogModel -- StudentModel
+    CourseModel -- CourseModel
+    StudentModel -- RegistrationModel
+    RegistrationModel -- OfferingModel
+    CourseModel o-- OfferingModel
+}
+
+package registrationSystem.view #DDDDDD
+{
+    class AppView
+    class MenuView
+    class SearchView
+    class RegisterView
+    class DeregisterView
+    class CourseView
+}
+
+package registrationSystem.controller #DDDDDD
+{
+    class AppController
+    class MenuController
+    class SearchController
+    class RegisterController
+    class DeregisterController
+    class CourseController
+
+    AppController *-- CourseCatalogModel
+    AppController *-- StudentModel
+    AppController *-- MenuController
+
+    MenuController *-- SearchController
+    MenuController *-- RegisterController
+    MenuController *-- DeregisterController
+    MenuController *-- CourseController
+
+    AppController *-- AppView
+    MenuController o-- MenuView
+    SearchController o-- SearchView
+    RegisterController o-- RegisterView
+    DeregisterController o-- DeregisterView
+    CourseController o-- CourseView
+}
+
+database CourseCatalogDB
+database CourseOfferingsDB
+database DummyStudentsDB
+
+AppModel ..> DummyStudentsDB
+CourseCatalogModel ..> CourseOfferingsDB
+CourseCatalogModel ..> CourseCatalogDB
+
+@enduml
